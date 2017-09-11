@@ -9,12 +9,20 @@ import (
 var Version = ""
 
 func main() {
-	if len(os.Args) > 1 {
-		switch os.Args[1] {
+	code, message, _ := handle(os.Args[1:])
+	if message != "" {
+		fmt.Println(message)
+	}
+	os.Exit(code)
+}
+
+func handle(args []string) (int, string, error) {
+	if len(args) > 0 {
+		switch args[0] {
 		case "-v", "--version":
-			fmt.Println(Version)
+			return 0, Version, nil
 		}
 	}
 
-	os.Exit(0)
+	return 0, "", nil
 }

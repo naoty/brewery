@@ -3,13 +3,17 @@ package main
 import (
 	"fmt"
 	"os"
+	"strings"
 )
 
 // Version is the version of this application. This is updated when this package is compiled.
 var Version = ""
 
 func main() {
-	code, message, _ := handle(os.Args[1:])
+	code, message, err := handle(os.Args[1:])
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+	}
 	if message != "" {
 		fmt.Println(message)
 	}
@@ -24,5 +28,13 @@ func handle(args []string) (int, string, error) {
 		}
 	}
 
-	return 0, "", nil
+	data, err := Asset("templates/formula.rb")
+	if err != nil {
+		return 1, "", err
+	}
+
+	formula := string(data)
+	formula = strings.TrimRight(formula, "\n")
+
+	return 0, formula, nil
 }

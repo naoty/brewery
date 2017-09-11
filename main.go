@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"os"
 	"strings"
@@ -10,7 +11,8 @@ import (
 var Version = ""
 
 func main() {
-	code, message, err := handle(os.Args[1:])
+	args, opts := parseFlag()
+	code, message, err := handle(args, opts)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 	}
@@ -20,12 +22,21 @@ func main() {
 	os.Exit(code)
 }
 
-func handle(args []string) (int, string, error) {
-	if len(args) > 0 {
-		switch args[0] {
-		case "-v", "--version":
-			return 0, Version, nil
-		}
+type options struct {
+	version bool
+}
+
+func parseFlag() ([]string, options) {
+	versionShort := flag.Bool("v", false, "print version")
+	versionLong := flag.Bool("version", false, "print version")
+	flag.Parse()
+
+	return flag.Args(), options{version: *versionShort || *versionLong}
+}
+
+func handle(args []string, opts options) (int, string, error) {
+	if opts.version {
+		return 0, Version, nil
 	}
 
 	data, err := Asset("templates/formula.rb")

@@ -38,13 +38,13 @@ func parseFlag() ([]string, options) {
 }
 
 func handle(args []string, opts options) (int, string, error) {
+	if opts.version {
+		return 0, Version, nil
+	}
+
 	if len(args) == 0 {
 		err := errors.New("USAGE: brewery [options] <path>")
 		return 1, "", err
-	}
-
-	if opts.version {
-		return 0, Version, nil
 	}
 
 	data, err := Asset("templates/formula.rb")

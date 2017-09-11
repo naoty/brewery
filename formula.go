@@ -1,5 +1,10 @@
 package main
 
+import (
+	"path/filepath"
+	"strings"
+)
+
 // Formula represents Homebrew's formula.
 type Formula struct {
 	Name      string
@@ -10,10 +15,13 @@ type Formula struct {
 	Sha256    string
 }
 
-func newFormula() Formula {
+func newFormula(path string) Formula {
+	filename := filepath.Base(path)
+	base := strings.Split(filename, ".")[0]
+
 	return Formula{
-		Name:      "todo",
-		ClassName: "Todo",
+		Name:      base,
+		ClassName: strings.Title(base),
 		Desc:      "A todo management tool just for myself",
 		Homepage:  "https://github.com/naoty/todo",
 		URL:       "https://github.com/naoty/todo/releases/1.0.0/todo.tar.gz",

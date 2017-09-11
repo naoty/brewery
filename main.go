@@ -62,7 +62,7 @@ func handle(args []string, opts options) (int, string, error) {
 	}
 
 	buf := bytes.NewBufferString("")
-	formula := newFormula()
+	formula := newFormula(args[0])
 	err = template.Execute(buf, formula)
 	if err != nil {
 		return 1, "", err

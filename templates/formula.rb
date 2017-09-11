@@ -1,10 +1,10 @@
-class Brewery < Formula
-  desc     ""
-  homepage ""
-  url      ""
-  sha256   ""
+class {{.ClassName}} < Formula
+  desc     "{{.Desc}}"
+  homepage "{{.Homepage}}"
+  url      "{{.URL}}"
+  sha256   "{{.Sha256}}"
 
   def install
-    bin.install "brewery"
+    bin.install "{{.Name}}"
   end
 end

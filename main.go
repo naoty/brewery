@@ -1,10 +1,12 @@
 package main
 
 import (
+	"bytes"
 	"flag"
 	"fmt"
 	"os"
 	"strings"
+	"text/template"
 )
 
 // Version is the version of this application. This is updated when this package is compiled.
@@ -44,8 +46,21 @@ func handle(args []string, opts options) (int, string, error) {
 		return 1, "", err
 	}
 
-	formula := string(data)
-	formula = strings.TrimRight(formula, "\n")
+	text := string(data)
+	text = strings.TrimRight(text, "\n")
 
-	return 0, formula, nil
+	template := template.New("formula.rb")
+	template, err = template.Parse(text)
+	if err != nil {
+		return 1, "", err
+	}
+
+	buf := bytes.NewBufferString("")
+	formula := newFormula()
+	err = template.Execute(buf, formula)
+	if err != nil {
+		return 1, "", err
+	}
+
+	return 0, buf.String(), nil
 }

@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"errors"
 	"flag"
 	"fmt"
 	"os"
@@ -37,6 +38,11 @@ func parseFlag() ([]string, options) {
 }
 
 func handle(args []string, opts options) (int, string, error) {
+	if len(args) == 0 {
+		err := errors.New("USAGE: brewery [options] <path>")
+		return 1, "", err
+	}
+
 	if opts.version {
 		return 0, Version, nil
 	}

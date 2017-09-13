@@ -3,7 +3,6 @@ package main
 import (
 	"bytes"
 	"errors"
-	"flag"
 	"fmt"
 	"os"
 	"strings"
@@ -23,18 +22,6 @@ func main() {
 		fmt.Println(message)
 	}
 	os.Exit(code)
-}
-
-type options struct {
-	version bool
-}
-
-func parseFlag() ([]string, options) {
-	versionShort := flag.Bool("v", false, "print version")
-	versionLong := flag.Bool("version", false, "print version")
-	flag.Parse()
-
-	return flag.Args(), options{version: *versionShort || *versionLong}
 }
 
 func handle(args []string, opts options) (int, string, error) {
@@ -62,7 +49,7 @@ func handle(args []string, opts options) (int, string, error) {
 	}
 
 	buf := bytes.NewBufferString("")
-	formula := newFormula(args[0])
+	formula := newFormula(args[0], opts.desc, opts.homepage, opts.url)
 	err = template.Execute(buf, formula)
 	if err != nil {
 		return 1, "", err

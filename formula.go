@@ -15,16 +15,16 @@ type Formula struct {
 	Sha256    string
 }
 
-func newFormula(path string) Formula {
+func newFormula(path string, desc string, homepage string, url string) Formula {
 	filename := filepath.Base(path)
 	base := strings.Split(filename, ".")[0]
 
 	return Formula{
 		Name:      base,
 		ClassName: strings.Title(base),
-		Desc:      "A todo management tool just for myself",
-		Homepage:  "https://github.com/naoty/todo",
-		URL:       "https://github.com/naoty/todo/releases/1.0.0/todo.tar.gz",
+		Desc:      desc,
+		Homepage:  homepage,
+		URL:       url,
 		Sha256:    "050cfb85006b1238f4d2c51f82ad52b212e852ff1292796e2706b9e7ab532c4f",
 	}
 }

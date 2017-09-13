@@ -49,7 +49,11 @@ func handle(args []string, opts options) (int, string, error) {
 	}
 
 	buf := bytes.NewBufferString("")
-	formula := newFormula(args[0], opts.desc, opts.homepage, opts.url)
+	formula, err := newFormula(args[0], opts.desc, opts.homepage, opts.url)
+	if err != nil {
+		return 1, "", err
+	}
+
 	err = template.Execute(buf, formula)
 	if err != nil {
 		return 1, "", err

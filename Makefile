@@ -7,3 +7,6 @@ setup:
 build:
 	go-bindata templates/
 	go build -ldflags "-X main.Version=$(VERSION)" -o bin/brewery
+
+release: build
+	tar czvf brewery.tar.gz bin

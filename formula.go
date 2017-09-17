@@ -22,6 +22,10 @@ func newFormula(path string, desc string, homepage string, url string) (Formula,
 	filename := filepath.Base(path)
 	base := strings.Split(filename, ".")[0]
 
+	className := strings.Title(base)
+	className = strings.Replace(className, "-", "", -1)
+	className = strings.Replace(className, "_", "", -1)
+
 	absolutePath, err := filepath.Abs(path)
 	if err != nil {
 		return Formula{}, err
@@ -37,7 +41,7 @@ func newFormula(path string, desc string, homepage string, url string) (Formula,
 
 	formula := Formula{
 		Name:      base,
-		ClassName: strings.Title(base),
+		ClassName: className,
 		Desc:      desc,
 		Homepage:  homepage,
 		URL:       url,
